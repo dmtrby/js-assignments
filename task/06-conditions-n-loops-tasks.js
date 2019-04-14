@@ -30,7 +30,16 @@
  *
  */
 function getFizzBuzz(num) {
-    throw new Error('Not implemented');
+    if (num % 3 == 0 && num % 5 == 0) {
+        return 'FizzBuzz';
+    }
+    if (num % 3 == 0) {
+        return 'Fizz'
+    }
+    if (num % 5 == 0) {
+        return 'Buzz'
+    }
+    return num;
 }
 
 
@@ -46,8 +55,14 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-
-    return (n != 1) ? n * getFactorial(n - 1) : 1;
+    //return (n != 1) ? n * getFactorial(n - 1) : 1;
+    let fact = 1;
+    let i = 1;
+    while ( i <= n) {
+        fact = fact * i;
+        i++;
+    }
+    return fact;
 }
 
 
@@ -64,7 +79,11 @@ function getFactorial(n) {
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
 function getSumBetweenNumbers(n1, n2) {
-    throw new Error('Not implemented');
+    let sum = 0;
+   for (var i = n1; i <= n2; i++) {
+    sum = sum + i;
+   }
+   return sum;
 }
 
 
@@ -83,7 +102,8 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,10,10 =>  true
  */
 function isTriangle(a,b,c) {
-    throw new Error('Not implemented');
+    return (a + b > c && a + c > b && b + c > a); 
+       
 }
 
 
@@ -120,7 +140,23 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    throw new Error('Not implemented');
+   let r1x1 = rect1.left;
+   let r1y1 = rect1.top;
+   let r1x2 = rect1.left+rect1.width;
+   let r1y2 = rect1.top+rect1.height;
+   let r2x1 = rect2.left;
+   let r2y1 = rect2.top;
+   let r2x2 = rect2.left+rect2.width;
+   let r2y2 = rect2.top+rect2.height;
+ 
+
+    if (r1x1 <= r2x2 && r2x1 <= r1x2 && r1y1 <= r2y2 && r2y1 <= r1y2)
+    return true;
+
+    return false;
+
+    
+
 }
 
 
@@ -151,7 +187,8 @@ function doRectanglesOverlap(rect1, rect2) {
  *   
  */
 function isInsideCircle(circle, point) {
-    throw new Error('Not implemented');
+    let p = Math.sqrt(Math.pow(circle.center.x - point.x, 2) + Math.pow(circle.center.y - point.y, 2));
+    return p < circle.radius;
 }
 
 
@@ -167,7 +204,15 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    throw new Error('Not implemented');
+    let obj = {};
+    for (var i = 0; i < str.length; i++) {
+        if (obj[str[i]] == undefined) 
+        obj[str[i]] = 1;
+        else
+        obj[str[i]] = obj[str[i]] +1;
+    }
+    for (var key in obj) 
+    if (obj[key] == 1) return key;
 }
 
 
@@ -193,7 +238,19 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    throw new Error('Not implemented');
+    if (a > b) {
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+    }
+    let s = '';
+    if (isStartIncluded) s = s + '[';
+    else s = s + '(';
+    s = s + a + ', ';
+    s = s + b;
+    if (isEndIncluded) s = s + ']';
+    else s = s + ')';
+    return s;
 }
 
 
@@ -210,7 +267,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    throw new Error('Not implemented');
+    return str.split('').reverse().join('');
 }
 
 
@@ -227,7 +284,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    return Number((num+'').split('').reverse().join(''));
 }
 
 
@@ -252,7 +309,34 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    let arr = (ccn+'').split('');
+    arr = arr.map(function(v) {
+        return Number(v);
+    })
+     let sum = 0;
+     if (arr.length % 2 == 0) {
+         for (let i = 0; i < arr.length; i++) {
+             if (i % 2 == 0)  {
+                if (arr[i] * 2 < 9) sum = sum + arr[i]*2;
+                else sum = sum + (arr[i]*2 - 9);
+             }
+             else {
+                 sum = sum + arr[i];
+             }
+         }
+     }
+     else {
+        for (let i = 0; i < arr.length; i++) {
+            if (i % 2 != 0)  {
+               if (arr[i] * 2 < 9) sum = sum + arr[i]*2;
+               else sum = sum + (arr[i]*2 - 9);
+            }
+            else {
+                sum = sum + arr[i];
+            }
+        }
+     }
+     return sum % 10 == 0;
 }
 
 
@@ -271,7 +355,16 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    function todo(num) {
+        let arr = (num+"").split('').map(Number);
+        let sum = 0;
+        for (let i = 0; i < arr.length; i++) {
+            sum = sum + arr[i];
+        }
+        if (sum < 9) return sum;
+        else return todo(sum);
+    }
+    return todo(num);
 }
 
 
@@ -297,7 +390,26 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    if (str.length ==0) return true;
+    if (str.length % 2 != 0) return false;
+    let brackets = [['[',']'],['(',')'],['{','}'],['<','>']];
+    
+    let stack = [];
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] == brackets[0][0] || str[i] == brackets[1][0] || str[i] == brackets[2][0] || str[i] == brackets[3][0]) {
+            stack.push(str[i]);
+        }
+        else {
+            if (stack.length == 0) return false;
+            if ((str[i] == brackets[0][1] && stack[stack.length-1] == brackets[0][0]) ||
+                (str[i] == brackets[1][1] && stack[stack.length-1] == brackets[1][0]) ||
+                (str[i] == brackets[2][1] && stack[stack.length-1] == brackets[2][0]) ||
+                (str[i] == brackets[3][1] && stack[stack.length-1] == brackets[3][0]) )
+                stack.pop();
+                else return false;
+        }
+    }
+    return true;
 }
 
 
@@ -374,7 +486,24 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
+    let obj = {};
+    let arr = [];
+    let x = pathes.length;
+    for (let i = 0; i < pathes.length; i++) {
+        arr = arr.concat(pathes[i].split('/'));
+    }
+    for (let i = 0; i < arr.length; i++) {
+        if (obj[arr[i]] == undefined) 
+            obj[arr[i]] = 1;
+        else obj[arr[i]]++;
+    }
+    let res = '';
+    for (let key in obj) {
+        if (obj[key] == x) {
+            res = res + key + '/';
+        }
+    }
+    return res;
 }
 
 
