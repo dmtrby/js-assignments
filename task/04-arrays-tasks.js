@@ -614,12 +614,15 @@ function group(array, keySelector, valueSelector) {
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-   throw new Error('Not implemented');
-    arr = arr.reduce((a,x)=> childrenSelector);
-    console.log(arr);
-    arr.splice(-1,1);
-    console.log(arr);
-    return arr;
+   let arr2 = [];
+   arr.map( function(v,i) {
+      arr2.push(childrenSelector(v));
+   });
+   let arr3 = [];
+   arr3 = arr2.reduce(function(a, b) {
+    return a.concat(b);
+  });
+   return arr3;
 }
 
 
@@ -636,7 +639,10 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-    throw new Error('Not implemented');
+   indexes.map(function(v,i) {
+      arr = arr[v];
+  });
+  return arr;
 }
 
 
