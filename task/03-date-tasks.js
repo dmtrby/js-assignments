@@ -22,7 +22,9 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+   let date = new Date(value);
+
+return date;
 }
 
 /**
@@ -37,7 +39,9 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+   let date = new Date(value);
+
+   return date;
 }
 
 
@@ -56,7 +60,9 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   throw new Error('Not implemented');
+   let data = new Date(date);
+   let year = data.getFullYear();
+   return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
 }
 
 
@@ -76,7 +82,19 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-   throw new Error('Not implemented');
+   let duration = endDate.getTime() - startDate.getTime();
+   let milliseconds = duration % 1000;
+   let seconds = parseInt((duration / 1000) % 60);
+   let minutes = parseInt((duration / (1000 * 60)) % 60);
+   let hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+ hours = (hours < 10) ? "0" + hours : hours;
+ minutes = (minutes < 10) ? "0" + minutes : minutes;
+ seconds = (seconds < 10) ? "0" + seconds : seconds;
+ if (milliseconds > 9 && milliseconds < 100) milliseconds = '0'+ milliseconds;
+ if (milliseconds < 10) milliseconds = '00'+milliseconds;
+
+ return hours + ":" + minutes + ":" + seconds +'.'+milliseconds;
 }
 
 
@@ -94,7 +112,37 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
+     let hours = date.getHours() -3 ;
+     let mins = date.getMinutes();
+     if (hours == 0 && mins == 0) return 0;
+     let secs = date.getSeconds();
+     let hourAngle= 360.0 / 12;
+     let minAngle = 360.0 / 60;
+     let hourAngleDelta = hourAngle / 60;
+     let minAngleDelta = minAngle / 60;
+   let minRes;
+   let hourRes;
+   let angle;
+
+     minRes = mins * minAngle + minAngleDelta * secs;
+     hourRes = hours % 12 * hourAngle + hourAngleDelta * mins;
+
+     if (mins > 0) {
+        if (hourRes < 0) {
+           hourRes = 360 + hourRes;
+        }
+         angle = minRes - hourRes;
+     }
+     else {
+         minRes = minRes  + 360;
+         if ( minRes + hourRes - 360 < minRes - hourRes)
+            angle = hourRes + minRes - 360;
+         else 
+            angle = minRes - hourRes;
+     }
+     if (angle < 0) 
+         angle = Math.abs(angle);
+      return angle*Math.PI/180;
 }
 
 
