@@ -469,7 +469,16 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    let s = [];
+    let del;
+    while (num >= n) {
+        del = Math.floor(num / n);
+        s.push(num - del*n);
+        num = del;
+    }
+    s.push(del);
+    return s.reverse().join('');
+
 }
 
 
@@ -526,7 +535,18 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+    var result = [];
+    for (var i = 0; i < m1.length; i++) {
+        result[i] = [];
+        for (var j = 0; j < m2[0].length; j++) {
+            var sum = 0;
+            for (var k = 0; k < m1[0].length; k++) {
+                sum += m1[i][k] * m2[k][j];
+            }
+            result[i][j] = sum;
+        }
+    }
+    return result;
 }
 
 
@@ -561,7 +581,45 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+    let sum = '';
+    let win = 0;
+    for (let i = 0; i < 3; i++) {
+        sum = position[i][0];
+        if (sum === undefined) continue;
+        win = 0;
+        for (let j = 1; j < 3; j++) {
+            if (position[i][j] == sum) {
+                win++;
+            }
+        }
+        if (win == 2) return sum;
+    }
+
+    for (let i = 0; i < 3; i++) {
+        sum = position[0][i];
+        win = 0;
+        for (let j = 1; j < 3; j++) {
+            if (position[j][i] == sum) {
+                win++;
+            }
+        }
+        if (win == 2) return sum;
+    }
+        sum = position[0][0];
+        win = 0;
+        for (let j = 1; j < 3; j++) {
+            if (position[j][j] == sum) {
+                win++;
+            }
+        }
+        if (win == 2) return sum;
+
+        sum = position[2][0];
+        if (sum == position[1][1] && sum == position[0][2])
+        return sum;
+    
+
+    return undefined;
 }
 
 
